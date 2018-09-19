@@ -11,3 +11,4 @@ mongoose.connect("mongodb://localhost/warbler", {
 mongoose.set('useCreateIndex', true);
 
 module.exports.User = require("./user");
+module.exports.Message = require("./message");
