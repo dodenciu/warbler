@@ -21,20 +21,34 @@ class Authform extends Component {
     handleSubmit = e => {
         e.preventDefault();
         const authType = this.props.signup ? "signup" : "signin";
-        this.props.onAuth(authType, this.state).then(() => {
-           console.log("User logged in") 
-        });
+        this.props.onAuth(authType, this.state)
+        .then(() => {
+           this.props.history.push("/");
+        }).catch(() => {
+            return;
+        })
     };
     
     render() {
+        // eslint-disable-next-line
         const { email, username, password, profileImageUrl } = this.state;
-        const { heading, buttonText, signup } = this.props;
+        const { heading, buttonText, signup, errors, removeError, history } = this.props;
+        
+        history.listen(() => {
+            removeError();
+        });
+        
         return (
             <div>    
                 <div className="row justify-content-md-center text-center">
                     <div className="col-md-6">
                         <form onSubmit={this.handleSubmit}>
                             <h2>{heading}</h2>
+                            {errors.message && 
+                                <div className="alert alert-danger">
+                                    {errors.message}
+                                </div>
+                            }
                             <label htmlFor="email">Email:</label>
                             <input 
                                 id="email" 
